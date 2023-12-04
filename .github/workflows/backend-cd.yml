@@ -37,7 +37,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":meow_party: Deployment Started. :meow_party:"
+              "text": ":meow_party: Deployment Started."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -49,7 +49,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":java: Set Up Environment :java:"
+              "text": ":java: Set Up Environment."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -81,7 +81,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Generate Build"
+              "text": "Generate Build."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -95,7 +95,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Building Application"
+              "text": "Building Application."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -126,7 +126,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Deploying with Elastic Beanstalk"
+              "text": "Start deploying to Elastic Beanstalk."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -143,6 +143,7 @@ jobs:
           version_description: ${{ github.SHA }}
           region: ${{ secrets.EB_REGION }}
           deployment_package: backend/Dockerrun.aws.json
+          wait_for_environment_recovery: 120
 
       - name: Slack Message
         uses: slackapi/slack-github-action@v1.24.0
