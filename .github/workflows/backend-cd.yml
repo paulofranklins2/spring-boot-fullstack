@@ -32,27 +32,29 @@ jobs:
         working-directory: './backend'
 
     steps:
-      - name: Send custom JSON data to Slack workflow
+      - name: Slack Message
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          # This data can be any valid JSON from a previous step in the GitHub Action
           payload: |
             {
               "text": "try",
-              "key": "value",
-              "foo": "bar"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - uses: actions/checkout@v4
 
-      - name: Send Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"Set up Java"}' 
-          ${{ secrets.SLACK_WEBHOOK_UR }}
+      - name: Slack Message
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Set Up Environment",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - uses: actions/setup-java@v4
         with:
@@ -61,10 +63,15 @@ jobs:
           cache: 'maven'
 
       - name: Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json' --data
-          '{"text":"Logging to Docker"}'
-          ${{ secrets.SLACK_WEBHOOK_UR }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Logging into Docker",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -73,29 +80,44 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json' --data
-          '{"Generate Build #"}'
-          ${{ secrets.SLACK_WEBHOOK_UR }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Generate Build: ",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Set Build Number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
 
       - name: Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json' --data
-          '{"text":"Building Application"}'
-          ${{ secrets.SLACK_WEBHOOK_UR }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Building Application",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
 
       - name: Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json' --data
-          '{"text":"Updating Dockerrun.aws.json"}'
-          ${{ secrets.SLACK_WEBHOOK_UR }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Updating Dockerrun.aws.json",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Update Dockerrun.aws.json api image tag with new build number
         run: |
@@ -106,10 +128,15 @@ jobs:
           cat Dockerrun.aws.json
 
       - name: Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json' --data
-          '{"text":"Deploying to Elastic Beanstalk: "}'
-          ${{ secrets.SLACK_WEBHOOK_UR }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Deploying with Elastic Beanstalk",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       #              Beanstalk Deploy
       - name: Deploy to Elastic Beanstalk
@@ -125,10 +152,15 @@ jobs:
           deployment_package: backend/Dockerrun.aws.json
 
       - name: Slack Message
-        run: >
-          curl -X POST -H 'Content-type: application/json' --data
-          '{"text":"Commit Version Change: "}'
-          ${{ secrets.SLACK_WEBHOOK_UR }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Commit version change: ",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Commit and Push Dockerrun.aws.json
         run: |
