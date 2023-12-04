@@ -37,7 +37,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":meow_party: Deployment Started."
+              "text": "Deployment Started. :mild-panic-intensifies:"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -60,31 +60,11 @@ jobs:
           java-version: '21'
           cache: 'maven'
 
-      - name: Slack Message
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-              "text": ":docker: Logging into Docker :docker:"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Slack Message
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-              "text": "Generate Build."
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Set Build Number
         id: build-number
@@ -171,18 +151,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Deployment and commit completed :mild-panic-intensifies:",
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Slack Message
-        uses: slackapi/slack-github-action@v1.24.0
-        if: always()
-        with:
-          payload: |
-            {
-              "text": "Job Status: ${{ job.status }}"
+              "text": "Deployment and Commit completed",
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
