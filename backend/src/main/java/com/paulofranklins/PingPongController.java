@@ -9,7 +9,7 @@ public class PingPongController {
     }
 
     @GetMapping()
-    public PingPong getPingPong() {
-        return new PingPong("Pong #1.");
+    private PingPong getPingPong() {
+        return new PingPong("Pong #1");
     }
 }
