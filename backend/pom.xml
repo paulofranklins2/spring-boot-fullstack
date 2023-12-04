@@ -13,15 +13,11 @@
     <artifactId>paulofranklins-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <organization>
-        <name>paulofranklins</name>
-        <url>https://paulofranklins.com</url>
-    </organization>
-
-<!--    <name>spring-boot-exemple</name>-->
-<!--    <description>spring-boot-exemple</description>-->
     <properties>
         <java.version>17</java.version>
+        <docker.image.name>paulofranklins-api</docker.image.name>
+        <docker.username>paulofranklins</docker.username>
+        <docker.image.tag/>
     </properties>
     <dependencies>
         <!--   Database PostgresSQL     -->
@@ -106,14 +102,6 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!--   Devtools     -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-devtools</artifactId>-->
-        <!--            <scope>runtime</scope>-->
-        <!--            <optional>true</optional>-->
-        <!--        </dependency>-->
 
         <!--   Springboot Starter     -->
         <dependency>
@@ -216,7 +204,7 @@
                         </platforms>
                     </from>
                     <to>
-                        <image>docker.io/${project.organization.name}/${project.artifactId}:${project.version}</image>
+                        <image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
                         <tags>
                             <tag>latest</tag>
                         </tags>
