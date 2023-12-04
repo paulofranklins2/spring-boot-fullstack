@@ -38,7 +38,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "try",
+              "text": ":squirrel: `try` :crossed_fingers::skin-tone-2: "
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -51,7 +51,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Set Up Environment",
+              "text": "Set Up Environment"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -68,7 +68,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Logging into Docker",
+              "text": "Logging into Docker"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -85,7 +85,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Generate Build: ",
+              "text": "Generate Build: "
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -100,7 +100,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Building Application",
+              "text": "Building Application"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -114,7 +114,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Updating Dockerrun.aws.json",
+              "text": "Updating Dockerrun.aws.json"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -133,7 +133,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Deploying with Elastic Beanstalk",
+              "text": "Deploying with Elastic Beanstalk"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -157,7 +157,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Commit version change: ",
+              "text": "Commit version change: "
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
