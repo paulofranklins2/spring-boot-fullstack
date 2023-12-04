@@ -75,7 +75,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Building Application."
+              "text": ":maven: Building With Maven."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -131,8 +131,25 @@ jobs:
         with:
           payload: |
             {
-              "text": "githubloading: Committing to repo: https://github.com/paulofranklins2/spring-boot-fullstack",
-              "text": "Commit version change: ${{ steps.build-number.outputs.BUILD_NUMBER }}",
+              "text": "githubloading: Committing to repo: https://github.com/paulofranklins2/spring-boot-fullstack"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Slack Message
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Commit version change: ${{ steps.build-number.outputs.BUILD_NUMBER }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack Message
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
               "text": "Git SHA: ${{ github.SHA }}"
             }
         env:
@@ -151,7 +168,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Deployment and Commit completed",
+              "text": "Deployment and Commit completed"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
