@@ -20,7 +20,7 @@ public class Main {
     @Bean
     CommandLineRunner commandLineRunner(CustomerRepository customerRepository) {
         return args -> {
-            Faker faker = new Faker();
+            var faker = new Faker();
             var random = new Random();
             var firstName = faker.name().firstName();
             var lastName = faker.name().lastName();
