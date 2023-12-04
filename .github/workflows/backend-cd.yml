@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Slack Message
-        id: slack
+        id: slack1
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Slack Message
-#        id: slack
+        id: slack2
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -63,7 +63,7 @@ jobs:
           cache: 'maven'
 
       - name: Slack Message
-#        id: slack
+        id: slack3
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -80,7 +80,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Slack Message
-#        id: slack
+        id: slack4
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -95,7 +95,7 @@ jobs:
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
 
       - name: Slack Message
-#        id: slack
+        id: slack5
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -109,7 +109,7 @@ jobs:
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
 
       - name: Slack Message
-#        id: slack
+        id: slack6
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -128,7 +128,7 @@ jobs:
           cat Dockerrun.aws.json
 
       - name: Slack Message
-#        id: slack
+        id: slack7
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -152,7 +152,7 @@ jobs:
           deployment_package: backend/Dockerrun.aws.json
 
       - name: Slack Message
-#        id: slack
+        id: slack8
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
