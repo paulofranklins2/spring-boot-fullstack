@@ -108,7 +108,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Updating Dockerrun.aws.json"
+              "text": "Docker Img Tag: ${{steps.build-number.outputs.BUILD_NUMBER}} Pushed to: ${{ secrets.DOCKER_REPO_URL}}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -126,7 +126,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Start deploying to Elastic Beanstalk."
+              "text": ":aws: Start deployment to Elastic Beanstalk."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -143,6 +143,7 @@ jobs:
           version_description: ${{ github.SHA }}
           region: ${{ secrets.EB_REGION }}
           deployment_package: backend/Dockerrun.aws.json
+          # TODO: FIX BYPASS
           wait_for_deployment: false
 
       - name: Slack Message
@@ -150,6 +151,7 @@ jobs:
         with:
           payload: |
             {
+              "text": "githubloading: Committing to repo: https://github.com/paulofranklins2/spring-boot-fullstack",
               "text": "Commit version change: ${{ steps.build-number.outputs.BUILD_NUMBER }}",
               "text": "Git SHA: ${{ github.SHA }}"
             }
@@ -163,3 +165,24 @@ jobs:
           git add .
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{ steps.build-number.outputs.BUILD_NUMBER }}"
           git push
+
+      - name: Slack Message
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "Deployment and commit completed :mild-panic-intensifies:",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack Message
+        uses: slackapi/slack-github-action@v1.24.0
+        if: always()
+        with:
+          payload: |
+            {
+              "text": "Job Status: ${{ job.status }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
