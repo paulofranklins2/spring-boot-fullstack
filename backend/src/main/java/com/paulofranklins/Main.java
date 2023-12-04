@@ -27,10 +27,7 @@ public class Main {
 
             var customer = new Customer(
                     firstName + " " + lastName,
-                    firstName.toLowerCase() +
-                            "." +
-                            lastName.toLowerCase() +
-                            "@gmail.com",
+                    firstName.toLowerCase() + "." + lastName.toLowerCase() + "@gmail.com",
                     random.nextInt(21, 80));
 
             customerRepository.save(customer);
