@@ -59,7 +59,7 @@ jobs:
           sed -i -E 's_(paulofranklins/paulofranklins-api:)([^"]*)_\1'${{steps.build.number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
           
           echo "Dockerrun.aws.json after updating tag"
-          at Dockerrun.aws.json
+          cat Dockerrun.aws.json
 
       #              Beanstalk Deploy
       - name: Deploy to Elastic Beanstalk
