@@ -37,7 +37,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":squirrel: `try` :crossed_fingers::skin-tone-2: "
+              "text": ":meow_party: Deployment Started. :meow_party:"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -49,7 +49,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Set Up Environment"
+              "text": ":java: Set Up Environment :java:"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -65,7 +65,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Logging into Docker"
+              "text": ":docker: Logging into Docker :docker:"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
