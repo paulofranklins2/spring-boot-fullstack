@@ -36,14 +36,14 @@ jobs:
         run: >
           curl -X POST -H 'Content-type: application/json'
           --data '{"text":"Deployment started :progress_bar: :fingerscrossed:"}' 
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+          ${{ secrets.SLACK_WEBHOOK_UR }}
 
       - uses: actions/checkout@v4
 
-      - name: Slack Message
+      - name: Send Slack Message
         run: >
-          curl -X POST -H 'Content-type: application/json' --data
-          '{"text":"Set up Java"}'
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Set up Java"}' 
           ${{ secrets.SLACK_WEBHOOK_UR }}
 
       - uses: actions/setup-java@v4
