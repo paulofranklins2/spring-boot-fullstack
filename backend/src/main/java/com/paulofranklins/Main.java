@@ -25,7 +25,7 @@ public class Main {
             var firstName = faker.name().firstName();
             var lastName = faker.name().lastName();
 
-            Customer customer = new Customer(
+            var customer = new Customer(
                     firstName + " " + lastName,
                     firstName.toLowerCase() +
                             "." +
