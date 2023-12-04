@@ -32,12 +32,25 @@ jobs:
         working-directory: './backend'
 
     steps:
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment has started"}' ${{ secrets.SLACK_WEBHOOK_UR }}
+
       - uses: actions/checkout@v4
+
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Set up Java"}' ${{ secrets.SLACK_WEBHOOK_UR }}
+
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
+
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Logging to Docker"}' ${{ secrets.SLACK_WEBHOOK_UR }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -45,12 +58,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"Generate Build #"}' ${{ secrets.SLACK_WEBHOOK_UR }}
+
       - name: Set Build Number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
 
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Building Application"}' ${{ secrets.SLACK_WEBHOOK_UR }}
+
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
+
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Updating Dockerrun.aws.json"}' ${{ secrets.SLACK_WEBHOOK_UR }}
 
       - name: Update Dockerrun.aws.json api image tag with new build number
         run: |
@@ -59,6 +84,10 @@ jobs:
           sed -i -E 's_(paulofranklins/paulofranklins-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json 
           echo "Dockerrun.aws.json after updating tag"
           cat Dockerrun.aws.json
+
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploying to Elastic Beanstalk: ${{ steps.build-number.outputs.BUILD_NUMBER }}"}' ${{ secrets.SLACK_WEBHOOK_UR }}
 
       #              Beanstalk Deploy
       - name: Deploy to Elastic Beanstalk
@@ -72,6 +101,10 @@ jobs:
           version_description: ${{ github.SHA }}
           region: ${{ secrets.EB_REGION }}
           deployment_package: backend/Dockerrun.aws.json
+
+      - name: Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Commit Version Change: ${{ steps.build-number.outputs.BUILD_NUMBER }}"}' ${{ secrets.SLACK_WEBHOOK_UR }}
 
       - name: Commit and Push Dockerrun.aws.json
         run: |
