@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import com.paulofranklins.customer.Customer;
 import com.paulofranklins.customer.CustomerRegistrationRequest;
 import com.paulofranklins.customer.CustomerUpdateRequest;
+import com.paulofranklins.customer.Gender;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,8 +35,10 @@ public class CustomerIntegrationTest {
         var name = faker.name().fullName();
         var email = UUID.randomUUID() + "@gmail.com";
         var age = RANDOM.nextInt(1, 100);
+        var gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
 
-        var request = new CustomerRegistrationRequest(name, email, age);
+
+        var request = new CustomerRegistrationRequest(name, email, age, gender);
 
         //send a post request
         webTestClient.post()
@@ -60,7 +63,7 @@ public class CustomerIntegrationTest {
                 .getResponseBody();
 
         //make sure that customer is present
-        var expected = new Customer(name, email, age);
+        var expected = new Customer(name, email, age, gender);
         var id = allCustomers.stream()
                 .filter(customer -> customer.getEmail().equals(email))
                 .map(Customer::getId)
@@ -92,8 +95,9 @@ public class CustomerIntegrationTest {
         var name = faker.name().fullName();
         var email = UUID.randomUUID() + "@gmail.com";
         var age = RANDOM.nextInt(1, 100);
+        var gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
 
-        var request = new CustomerRegistrationRequest(name, email, age);
+        var request = new CustomerRegistrationRequest(name, email, age, gender);
 
         //send a post request
         webTestClient.post()
@@ -148,8 +152,9 @@ public class CustomerIntegrationTest {
         var name = faker.name().fullName();
         var email = UUID.randomUUID() + "@gmail.com";
         var age = RANDOM.nextInt(1, 100);
+        var gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
 
-        var request = new CustomerRegistrationRequest(name, email, age);
+        var request = new CustomerRegistrationRequest(name, email, age, gender);
 
         //send a post request
         webTestClient.post()
@@ -180,7 +185,7 @@ public class CustomerIntegrationTest {
                 .orElseThrow();
 
         //update customer
-        String newName = "Paulo";
+        var newName = "Paulo";
 
         var updateRequest = new CustomerUpdateRequest(newName, null, null);
 
@@ -204,7 +209,7 @@ public class CustomerIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        var expected = new Customer(id, newName, email, age);
+        var expected = new Customer(id, newName, email, age, gender);
 
         assertThat(updatedCustomer).isEqualTo(expected);
     }

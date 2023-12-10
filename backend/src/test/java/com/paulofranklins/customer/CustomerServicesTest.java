@@ -3,13 +3,11 @@ package com.paulofranklins.customer;
 import com.paulofranklins.exceptions.DuplicateResourceException;
 import com.paulofranklins.exceptions.RequestValidationException;
 import com.paulofranklins.exceptions.ResourceNotFoundException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -41,9 +39,7 @@ class CustomerServicesTest {
     void canGetCustomer() {
         //Given
         var id = 2;
-        var customer = new Customer(
-                id, "paulo",
-                "paulo@gmail.com", 28);
+        var customer = new Customer(id, "paulo", "paulo@gmail.com", 29, Gender.MALE);
 
         when(customerDAO.selectCustomerById(id))
                 .thenReturn(Optional.of(customer));
@@ -79,7 +75,7 @@ class CustomerServicesTest {
         when(customerDAO.existsCustomerByEmail(email)).thenReturn(false);
 
         var request = new CustomerRegistrationRequest(
-                "paulo", email, 20
+                "paulo", email, 20, Gender.MALE
         );
         //When
         underTest.addCustomer(request);
@@ -105,7 +101,7 @@ class CustomerServicesTest {
         when(customerDAO.existsCustomerByEmail(email))
                 .thenReturn(true);
         var customer = new CustomerRegistrationRequest(
-                "paulo", email, 29
+                "paulo", email, 29, Gender.MALE
         );
 
         //When
@@ -157,7 +153,7 @@ class CustomerServicesTest {
         //Given
         var id = 10;
         var customer = new Customer(
-                id, "10", "10", 10);
+                id, "paulo", "10", 10, Gender.MALE);
         when(customerDAO.selectCustomerById(id))
                 .thenReturn(Optional.of(customer));
 
@@ -188,7 +184,7 @@ class CustomerServicesTest {
         //Given
         var id = 10;
         var customer = new Customer(
-                id, "10", "10", 10);
+                id, "test", null, null, null);
         when(customerDAO.selectCustomerById(id))
                 .thenReturn(Optional.of(customer));
 
@@ -217,7 +213,7 @@ class CustomerServicesTest {
         //Given
         var id = 10;
         var customer = new Customer(
-                id, "10", "10", 10);
+                id, null, null, 10, null);
         when(customerDAO.selectCustomerById(id))
                 .thenReturn(Optional.of(customer));
 
@@ -246,7 +242,7 @@ class CustomerServicesTest {
         //Given
         var id = 10;
         var customer = new Customer(
-                id, "10", "10", 10);
+                id, null, "emai@test.com", null, null);
         when(customerDAO.selectCustomerById(id))
                 .thenReturn(Optional.of(customer));
 
@@ -278,7 +274,7 @@ class CustomerServicesTest {
         //Given
         var id = 10;
         var customer = new Customer(
-                id, "10", "10", 10);
+                id, null, "10", 10, Gender.MALE);
         when(customerDAO.selectCustomerById(id))
                 .thenReturn(Optional.of(customer));
 
@@ -305,7 +301,7 @@ class CustomerServicesTest {
         //Given
         var id = 10;
         var customer = new Customer(
-                10, "10", "10", 10);
+                id, "10", "10", 10, Gender.MALE);
         when(customerDAO.selectCustomerById(id))
                 .thenReturn(Optional.of(customer));
 

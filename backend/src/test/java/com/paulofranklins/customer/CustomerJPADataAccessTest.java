@@ -5,7 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
@@ -56,7 +55,7 @@ class CustomerJPADataAccessTest {
         //Given
         var name = faker.name().fullName();
         var email = faker.internet().emailAddress();
-        Customer customer = new Customer(name, email, 28);
+        Customer customer = new Customer(name, email, 28, Gender.MALE);
 
         //When
         undeTest.insertCustomer(customer);
@@ -106,7 +105,7 @@ class CustomerJPADataAccessTest {
         //Given
         var name = faker.name().fullName();
         var email = faker.internet().emailAddress();
-        Customer customer = new Customer(name, email, 28);
+        Customer customer = new Customer(name, email, 28, Gender.MALE);
 
         //When
         undeTest.updateCustomer(customer);

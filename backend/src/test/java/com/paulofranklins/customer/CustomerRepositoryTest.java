@@ -1,7 +1,6 @@
 package com.paulofranklins.customer;
 
 import com.paulofranklins.AbstractTestContainers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -23,7 +22,7 @@ class CustomerRepositoryTest extends AbstractTestContainers {
         //Given
         var name = faker.name().fullName();
         var email = faker.internet().emailAddress() + "_" + UUID.randomUUID();
-        Customer c = new Customer(name, email, 28);
+        Customer c = new Customer(name, email, 28, Gender.MALE);
         underTest.save(c);
 
         //When
@@ -50,7 +49,7 @@ class CustomerRepositoryTest extends AbstractTestContainers {
         //Given
         var name = faker.name().fullName();
         var email = faker.internet().emailAddress() + "_" + UUID.randomUUID();
-        Customer c = new Customer(name, email, 28);
+        Customer c = new Customer(name, email, 28, Gender.MALE);
         underTest.save(c);
 
         //When

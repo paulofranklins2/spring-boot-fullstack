@@ -4,6 +4,7 @@ package com.paulofranklins;
 import com.github.javafaker.Faker;
 import com.paulofranklins.customer.Customer;
 import com.paulofranklins.customer.CustomerRepository;
+import com.paulofranklins.customer.Gender;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,11 +25,14 @@ public class Main {
             var random = new Random();
             var firstName = faker.name().firstName();
             var lastName = faker.name().lastName();
+            int age = random.nextInt(21, 80);
+            var gender = age % 2 == 0 ? "MALE" : "FEMALE";
+
 
             var customer = new Customer(
                     firstName + " " + lastName,
                     firstName.toLowerCase() + "." + lastName.toLowerCase() + "@gmail.com",
-                    random.nextInt(21, 80));
+                    age, Gender.valueOf(gender));
 
             customerRepository.save(customer);
         };
