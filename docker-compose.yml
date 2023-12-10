@@ -16,9 +16,9 @@ services:
 
   paulofranklins-api:
     container_name: paulofranklins-api
+    image: paulofranklins/paulofranklins-api
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://db:5432/customer"
-    image: paulofranklins/paulofranklins-api
     ports:
       - "8088:8080"
     networks:
