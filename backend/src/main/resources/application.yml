@@ -3,6 +3,10 @@ server:
   error:
     include-binding-errors: always
 
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5332/customer
