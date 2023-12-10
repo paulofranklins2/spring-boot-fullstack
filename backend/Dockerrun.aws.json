@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "paulofranklins-api",
-      "image": "paulofranklins/paulofranklins-api:10.12.2023.00.11.28",
+      "image": "paulofranklins/paulofranklins-api:10.12.2023.03.18.37",
       "essential": true,
       "memory": 512,
       "portMappings": [
