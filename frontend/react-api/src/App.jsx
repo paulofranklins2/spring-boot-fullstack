@@ -1,63 +1,80 @@
 import {
-    Wrap,
-    WrapItem,
-    Spinner,
-    Text
+    Wrap, WrapItem, Spinner, Text
 } from '@chakra-ui/react';
 import React from 'react';
 import SidebarWithHeader from "./components/shared/SideBar.jsx";
 import {useEffect, useState} from "react";
-import {getCustomers} from "./services/client.js";
+import {getCustomers} from "./services/Client.js";
 import CardWithImage from "./components/CustomerCard.jsx";
+import CreateCustomerDrawer from "./components/CreateCustomerDrawer.jsx";
+import {errorNotification} from "./services/Notification.js";
+
+
 const App = () => {
 
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(false);
-    useEffect(() => {
+    const [err, settError] = useState("")
+    const fetchCustomers = () => {
         setLoading(true);
         getCustomers().then(res => {
             setCustomers(res.data)
         }).catch(err => {
             console.log(err)
+            settError(err.response.data.error)
+            errorNotification(err.code, err.response.data.error)
         }).finally(() => {
             setLoading(false)
         })
+    }
+
+    useEffect(() => {
+        fetchCustomers();
     }, [])
+
     if (loading) {
-        return (
-            <SidebarWithHeader>
-                <Spinner
-                    thickness='4px'
-                    speed='0.65s'
-                    emptyColor='gray.200'
-                    color='blue.500'
-                    size='xl'
-                />
-            </SidebarWithHeader>
-        )
+        return (<SidebarWithHeader>
+            <Spinner
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+            />
+        </SidebarWithHeader>)
+    }
+
+    if (err) {
+        return (<SidebarWithHeader>
+            <CreateCustomerDrawer
+                fetchCustomers={fetchCustomers}
+            />
+            <Text mt={5}>Ooops there was an error.</Text>
+        </SidebarWithHeader>)
     }
 
     if (customers.length <= 0) {
-        return (
-            <SidebarWithHeader>
-                <Text>No customers available</Text>
-            </SidebarWithHeader>
-        )
+        return (<SidebarWithHeader>
+            <CreateCustomerDrawer
+                fetchCustomers={fetchCustomers}
+            />
+            <Text mt={5}>No customers available.</Text>
+        </SidebarWithHeader>)
     }
 
-    return (
-        <SidebarWithHeader>
-            <Wrap justify={"center"} spacing={"30px"}>
-                {customers.map((customer, index) => (
-                    <WrapItem key={index}>
-                        <CardWithImage
-                            {...customer}
-                            imageNumber={index}
-                        />
-                    </WrapItem>
-                ))}
-            </Wrap>
-        </SidebarWithHeader>
-    )
+    return (<SidebarWithHeader>
+        <CreateCustomerDrawer
+            fetchCustomers={fetchCustomers}
+        />
+        <Wrap justify={"center"} spacing={"30px"}>
+            {customers.map((customer, index) => (<WrapItem key={index}>
+                <CardWithImage
+                    {...customer}
+                    imageNumber={index}
+                    fetchCustomers={fetchCustomers}
+                />
+            </WrapItem>))}
+        </Wrap>
+    </SidebarWithHeader>)
 }
 export default App;

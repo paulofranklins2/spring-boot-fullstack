@@ -9,7 +9,6 @@ import {
     HStack,
     Icon,
     IconButton,
-    Link,
     Menu,
     MenuButton,
     MenuDivider,
@@ -104,7 +103,7 @@ const SidebarContent = ({onClose, ...rest}) => {
 
 const NavItem = ({icon, children, ...rest}) => {
     return (
-        <Link href="frontend/react/src/components/shared#" style={{textDecoration: 'none'}} _focus={{boxShadow: 'none'}}>
+        // <Link href="frontend/react/src/components/shared#" style={{textDecoration: 'none'}} _focus={{boxShadow: 'none'}}>
             <Flex
                 align="center"
                 p="4"
@@ -113,8 +112,8 @@ const NavItem = ({icon, children, ...rest}) => {
                 role="group"
                 cursor="pointer"
                 _hover={{
-                    bg: 'cyan.400',
-                    color: 'white',
+                    bg: 'gray.300',
+                    color: 'black',
                 }}
                 {...rest}>
                 {icon && (
@@ -122,14 +121,14 @@ const NavItem = ({icon, children, ...rest}) => {
                         mr="4"
                         fontSize="16"
                         _groupHover={{
-                            color: 'white',
+                            color: 'black',
                         }}
                         as={icon}
                     />
                 )}
                 {children}
             </Flex>
-        </Link>
+        // </Link>
     );
 };
 
