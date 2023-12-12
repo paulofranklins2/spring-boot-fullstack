@@ -11,7 +11,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres
@@ -26,14 +25,12 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     defaults:
       run:
         working-directory: './backend'
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Slack commit message and SHA
         uses: slackapi/slack-github-action@v1.24.0
         with:
@@ -50,17 +47,6 @@ jobs:
           payload: |
             {
               "text": "Deployment Started. :mild-panic-intensifies:"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-
-      - name: Slack Message
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-              "text": ":java: Set Up Environment."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -108,7 +94,7 @@ jobs:
         run: |
           echo "Dockerrun.aws.json before updating tag"
           cat ../Dockerrun.aws.json
-          sed -i -E 's_(paulofranklins/paulofranklins-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../Dockerrun.aws.json 
+          sed -i -E 's_(paulofranklins/paulofranklins-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat ../Dockerrun.aws.json
 
@@ -133,7 +119,7 @@ jobs:
           version_label: ${{ steps.build-number.outputs.BUILD_NUMBER }}
           version_description: ${{ github.SHA }}
           region: ${{ secrets.EB_REGION }}
-          deployment_package: ../Dockerrun.aws.json
+          deployment_package: Dockerrun.aws.json
           # TODO: FIX BYPASS
           wait_for_deployment: false
 
@@ -166,7 +152,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Commit and Push Dockerrun.aws.json
+      - name: Commit and push Dockerrun.aws.json
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
