@@ -86,8 +86,8 @@ const SidebarContent = ({onClose, ...rest}) => {
                 </Text>
                 <Image
                     borderRadius='full'
-                    boxSize='75px'
-                    src='https://user-images.githubusercontent.com/40702606/210880158-e7d698c2-b19a-4057-b415-09f48a746753.png'
+                    boxSize='120px'
+                    src='/src/resources/image/paulofranklins-logos_black.png'
                     alt='paulofranklins'
                 />
                 <CloseButton display={{base: 'flex', md: 'none'}} onClick={onClose}/>
@@ -112,7 +112,7 @@ const NavItem = ({icon, children, ...rest}) => {
                 role="group"
                 cursor="pointer"
                 _hover={{
-                    bg: 'red.300',
+                    bg: 'gray.300',
                     color: 'black',
                 }}
                 {...rest}>
