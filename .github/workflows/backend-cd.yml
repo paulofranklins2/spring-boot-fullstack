@@ -36,7 +36,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":github: https://github.com/paulofranklins2/spring-boot-fullstack/commit/${{github.sha}} - ${{ github.event.head_commit.message}}"
+              "text": ":github: https://github.com/paulofranklins2/spring-boot-fullstack/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
