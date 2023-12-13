@@ -120,8 +120,7 @@ jobs:
           version_description: ${{ github.SHA }}
           region: ${{ secrets.EB_REGION }}
           deployment_package: Dockerrun.aws.json
-          # TODO: FIX BYPASS
-          wait_for_deployment: false
+#          wait_for_deployment: false bypass
 
       - name: Slack Message
         uses: slackapi/slack-github-action@v1.24.0
