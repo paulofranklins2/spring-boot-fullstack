@@ -10,6 +10,6 @@ public class PingPongController {
 
     @GetMapping(path = "/ping")
     private PingPong getPingPong() {
-        return new PingPong("Pong. #1");
+        return new PingPong("Pong. #1, test callback after deployment");
     }
 }
