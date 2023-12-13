@@ -3,6 +3,7 @@ services:
     container_name: postgres
     image: postgres
     environment:
+      POSTGRES_DB: customer
       POSTGRES_USER: paulofranklins
       POSTGRES_PASSWORD: paulofranklins
       PGDATA: /data/postgres
