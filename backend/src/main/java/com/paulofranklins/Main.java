@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Random;
+import java.util.UUID;
 
 @SpringBootApplication
 public class Main {
@@ -27,12 +28,13 @@ public class Main {
             var lastName = faker.name().lastName();
             int age = random.nextInt(21, 80);
             var gender = age % 2 == 0 ? "MALE" : "FEMALE";
-
+            var password = UUID.randomUUID().toString();
 
             var customer = new Customer(
                     firstName + " " + lastName,
-                    firstName.toLowerCase() + "." + lastName.toLowerCase() + "@gmail.com",
-                    age, Gender.valueOf(gender));
+                    firstName.toLowerCase() + "." +
+                            lastName.toLowerCase() + "@gmail.com",
+                    password, age, Gender.valueOf(gender));
 
             customerRepository.save(customer);
         };
