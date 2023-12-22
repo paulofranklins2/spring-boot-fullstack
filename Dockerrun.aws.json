@@ -15,7 +15,7 @@
     },
     {
       "name": "paulofranklins-api",
-      "image": "paulofranklins/paulofranklins-api:13.12.2023.18.26.07",
+      "image": "paulofranklins/paulofranklins-api:22.12.2023.01.54.59",
       "essential": true,
       "memory": 512,
       "portMappings": [
