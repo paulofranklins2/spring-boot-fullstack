@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -20,11 +21,14 @@ import static org.mockito.Mockito.*;
 class CustomerServicesTest {
     @Mock
     private CustomerDAO customerDAO;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     private CustomerService underTest;
+    private final CustomerDTOMapper customerDTOMapper = new CustomerDTOMapper();
 
     @BeforeEach
     void setUp() {
-        underTest = new CustomerService(customerDAO);
+        underTest = new CustomerService(customerDAO, passwordEncoder, customerDTOMapper);
     }
 
     @Test
@@ -39,15 +43,20 @@ class CustomerServicesTest {
     void canGetCustomer() {
         //Given
         var id = 2;
-        var customer = new Customer(id, "paulo", "paulo", "password", 28, Gender.MALE);
+        var customer =
+                new Customer(
+                        id, "paulo", "paulo", "password", 28, Gender.MALE
+                );
+        when(customerDAO
+                .selectCustomerById(id))
+                .thenReturn(Optional.of(customer)
+                );
+        var expected = customerDTOMapper.apply(customer);
 
-        when(customerDAO.selectCustomerById(id))
-                .thenReturn(Optional.of(customer));
         //When
         var actual = underTest.getCustomer(2);
-
         //Then
-        assertThat(actual).isEqualTo(customer);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -77,6 +86,11 @@ class CustomerServicesTest {
         var request = new CustomerRegistrationRequest(
                 "paulo", email, "password", 20, Gender.MALE
         );
+
+        var passwordHash = "2!asdfasri2348@!#$asfdklajr1ijfasd";
+
+        when(passwordEncoder.encode(request.password())).thenReturn(passwordHash);
+
         //When
         underTest.addCustomer(request);
 
@@ -92,6 +106,7 @@ class CustomerServicesTest {
         assertThat(capturedValue.getName()).isEqualTo(request.name());
         assertThat(capturedValue.getEmail()).isEqualTo(request.email());
         assertThat(capturedValue.getAge()).isEqualTo(request.age());
+        assertThat(capturedValue.getPassword()).isEqualTo(passwordHash);
     }
 
     @Test
