@@ -40,16 +40,14 @@ public class CustomerJDBCDataAccessService implements CustomerDAO {
     @Override
     public boolean existsCustomerByEmail(String email) {
         var sql = "SELECT count(id) FROM customer WHERE email = ?";
-//        return jdbcTemplate.query(sql, customerRowMapper, email).stream().findFirst().isPresent();
-        Integer i = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        var i = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return i != null && i > 0;
     }
 
     @Override
     public boolean existsCustomerById(Integer id) {
         var sql = "SELECT count(id) FROM customer WHERE id = ?";
-//        return jdbcTemplate.query(sql, customerRowMapper, id).stream().findFirst().isPresent();
-        Integer i = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        var i = jdbcTemplate.queryForObject(sql, Integer.class, id);
         return i != null && i > 0;
     }
 
@@ -76,5 +74,12 @@ public class CustomerJDBCDataAccessService implements CustomerDAO {
             var sql = "UPDATE customer SET  age = ? where id = ? ";
             jdbcTemplate.update(sql, update.getAge(), update.getId());
         }
+    }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        var sql = "SELECT * FROM customer WHERE email = ?";
+        return jdbcTemplate.query(sql, customerRowMapper, email)
+                .stream().findFirst();
     }
 }

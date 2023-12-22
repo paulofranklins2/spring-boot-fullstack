@@ -4,24 +4,36 @@ import com.paulofranklins.exceptions.DuplicateResourceException;
 import com.paulofranklins.exceptions.RequestValidationException;
 import com.paulofranklins.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
     private final CustomerDAO customerDAO;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomerDTOMapper customerDTOMapper;
 
-    public CustomerService(@Qualifier("jdbc") CustomerDAO customerDAO) {
+    public CustomerService(@Qualifier("jdbc") CustomerDAO customerDAO,
+                           PasswordEncoder passwordEncoder,
+                           CustomerDTOMapper customerDTOMapper) {
         this.customerDAO = customerDAO;
+        this.customerDTOMapper = customerDTOMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Customer> getAllCustomer() {
-        return customerDAO.selectAllCustomers();
+    public List<CustomerDTO> getAllCustomer() {
+        return customerDAO.selectAllCustomers()
+                .stream()
+                .map(customerDTOMapper)
+                .collect(Collectors.toList());
     }
 
-    public Customer getCustomer(Integer id) {
+    public CustomerDTO getCustomer(Integer id) {
         return customerDAO.selectCustomerById(id)
+                .map(customerDTOMapper)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Customer with ID: [%s], Not Found".formatted(id)
                 ));
@@ -35,7 +47,8 @@ public class CustomerService {
                     new Customer(
                             customerRegistrationRequest.name(),
                             customerRegistrationRequest.email(),
-                            "password", customerRegistrationRequest.age(),
+                            passwordEncoder.encode(customerRegistrationRequest.password()),
+                            customerRegistrationRequest.age(),
                             customerRegistrationRequest.gender()));
 
         else throw new DuplicateResourceException(
@@ -53,7 +66,11 @@ public class CustomerService {
     }
 
     public void updateCustomer(Integer id, CustomerUpdateRequest r) {
-        Customer customer = getCustomer(id);
+        var customer = customerDAO.selectCustomerById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Customer with ID: [%s], Not Found".formatted(id)
+                ));
+
         boolean changes = false;
 
         if (r.name() != null && !r.name().equals(customer.getName())) {
