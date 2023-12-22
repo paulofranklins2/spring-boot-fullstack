@@ -1,5 +1,6 @@
 package com.paulofranklins.customer;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
@@ -19,7 +20,7 @@ public class CustomerDTOMapper implements Function<Customer, CustomerDTO> {
                 customer.getAge(),
                 customer.getAuthorities()
                         .stream()
-                        .map(r -> r.getAuthority())
+                        .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()),
                 customer.getUsername()
         );

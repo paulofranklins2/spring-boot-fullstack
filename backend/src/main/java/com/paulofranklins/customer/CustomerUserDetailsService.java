@@ -1,6 +1,5 @@
 package com.paulofranklins.customer;
 
-import com.paulofranklins.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

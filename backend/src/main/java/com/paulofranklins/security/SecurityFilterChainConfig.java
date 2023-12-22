@@ -1,6 +1,5 @@
 package com.paulofranklins.security;
 
-import com.paulofranklins.exceptions.DelegatedAuthEntryPoint;
 import com.paulofranklins.jwt.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
