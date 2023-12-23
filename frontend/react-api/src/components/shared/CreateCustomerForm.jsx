@@ -36,8 +36,7 @@ const MySelect = ({label, ...props}) => {
     );
 };
 
-// And now we can use these
-const CreateCustomerForm = ({ fetchCustomers }) => {
+const CreateCustomerForm = ({onSuccess}) => {
     return (
         <>
             <Formik
@@ -79,7 +78,7 @@ const CreateCustomerForm = ({ fetchCustomers }) => {
                                 "Customer saved",
                                 `${customer.name} was successfully saved`
                             )
-                            fetchCustomers();
+                            onSuccess(res.headers["authorization"]);
                         }).catch(err => {
                         console.log(err);
                         errorNotification(
@@ -105,7 +104,7 @@ const CreateCustomerForm = ({ fetchCustomers }) => {
                                 label="Email Address"
                                 name="email"
                                 type="email"
-                                placeholder="jane@formik.com"
+                                placeholder="email@gmail.com"
                             />
 
                             <MyTextInput
@@ -119,7 +118,7 @@ const CreateCustomerForm = ({ fetchCustomers }) => {
                                 label="Password"
                                 name="password"
                                 type="password"
-                                placeholder={"pick a secure password"}
+                                placeholder={"password"}
                             />
 
                             <MySelect label="Gender" name="gender">
