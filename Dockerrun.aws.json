@@ -2,32 +2,20 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "paulofranklins-react",
-      "image": "paulofranklins/paulofranklins-react:23.12.2023.02.38.44",
-      "essential": true,
-      "memory": 256,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 5173
-        }
-      ]
-    },
-    {
       "name": "paulofranklins-api",
       "image": "paulofranklins/paulofranklins-api:22.12.2023.01.54.59",
       "essential": true,
       "memory": 512,
       "portMappings": [
         {
-          "hostPort": 8080,
+          "hostPort": 80,
           "containerPort": 8080
         }
       ],
       "environment": [
         {
           "name": "SPRING_DATASOURCE_URL",
-          "value": "jdbc:postgresql://awseb-e-65uk9evgag-stack-awsebrdsdatabase-j45lfytdnu2d.ca0kr3wc8wgt.us-west-1.rds.amazonaws.com:5432/customer"
+          "value": "jdbc:postgresql://awseb-e-kjuczbhrsm-stack-awsebrdsdatabase-faun0uv7hgjk.ca0kr3wc8wgt.us-west-1.rds.amazonaws.com:5432/ebdb"
         }
       ]
     }
