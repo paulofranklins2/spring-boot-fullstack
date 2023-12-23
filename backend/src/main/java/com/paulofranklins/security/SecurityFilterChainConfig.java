@@ -3,7 +3,6 @@ package com.paulofranklins.security;
 import com.paulofranklins.jwt.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +13,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityFilterChainConfig {
@@ -22,7 +24,7 @@ public class SecurityFilterChainConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider,
-                                      JWTAuthenticationFilter jwtAuthenticationFilter,
+                                     JWTAuthenticationFilter jwtAuthenticationFilter,
                                      AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -36,11 +38,14 @@ public class SecurityFilterChainConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeRequests()
                 .requestMatchers(
-                        HttpMethod.POST,
+                        POST,
                         "/api/v1/customers",
                         "/api/v1/auth/login"
-                )
-                .permitAll()
+                ).permitAll()
+                .requestMatchers(
+                        GET,
+                        "/ping"
+                ).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

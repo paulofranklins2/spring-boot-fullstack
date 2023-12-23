@@ -33,7 +33,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Deployment Started. :mild-panic-intensifies:"
+              "text": ":react: Deployment Started. :mild-panic-intensifies:"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
