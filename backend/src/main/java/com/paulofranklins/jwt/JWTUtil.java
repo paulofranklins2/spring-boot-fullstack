@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static java.time.temporal.ChronoUnit.*;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class JWTUtil {

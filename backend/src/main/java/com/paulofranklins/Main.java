@@ -38,7 +38,6 @@ public class Main {
                             lastName.toLowerCase() + "@gmail.com",
                     passwordEncoder.encode(password),
                     age, Gender.valueOf(gender));
-
             customerRepository.save(customer);
         };
     }
