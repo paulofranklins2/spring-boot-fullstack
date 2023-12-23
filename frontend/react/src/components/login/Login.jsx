@@ -35,7 +35,7 @@ const LoginForm = () => {
                         .email("Must be valid email")
                         .required("Email is required"),
                     password: Yup.string()
-                        // .max(20, "Password cannot be more than 20 characters")
+                        .max(20, "Password cannot be more than 20 characters")
                         .required("Password is required")
                 })
             }
@@ -90,7 +90,7 @@ const Login = () => {
 
     useEffect(() => {
         if (customer) {
-            navigate("/dashboard");
+            navigate("/dashboard/customers");
         }
     })
 
