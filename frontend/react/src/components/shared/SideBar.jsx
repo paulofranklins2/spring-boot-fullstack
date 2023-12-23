@@ -79,7 +79,7 @@ const SidebarContent = ({onClose, ...rest}) => {
                 <Image
                     borderRadius='full'
                     boxSize='150px'
-                    src='/src/resources/image/paulofranklins-logos_black.png'
+                    src='https://github.com/paulofranklins2/spring-boot-fullstack/blob/master/frontend/react/src/resources/image/paulofranklins-logos_black.png?raw=true'
                     alt='PAULOFRANKLINS'
                 />
                 <CloseButton display={{base: 'flex', md: 'none'}} onClick={onClose}/>

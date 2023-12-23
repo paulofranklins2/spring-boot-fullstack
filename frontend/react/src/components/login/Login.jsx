@@ -99,7 +99,7 @@ const Login = () => {
             <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Image
-                        src='/src/resources/image/paulofranklins-logos_black.png'
+                        src='https://github.com/paulofranklins2/spring-boot-fullstack/blob/master/frontend/react/src/resources/image/paulofranklins-logos_black.png?raw=true'
                         alt='PAULOFRANKLINS'
                         boxSize={"200px"}
                         alignSelf={"center"}
@@ -121,7 +121,7 @@ const Login = () => {
             >
                 <Image
                     objectFit={'scale-down'}
-                    src='/src/resources/image/215539167-d7006790-b880-4929-83fb-c43fa74f429e.png'
+                    src='https://github.com/paulofranklins2/spring-boot-fullstack/blob/master/frontend/react/src/resources/image/215539167-d7006790-b880-4929-83fb-c43fa74f429e.png?raw=true'
                     alt='PAULOFRANKLINS'
                 />
             </Flex>
