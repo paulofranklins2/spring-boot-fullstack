@@ -82,12 +82,12 @@ const SidebarContent = ({onClose, ...rest}) => {
             h="full"
             {...rest}>
             <Flex h="20" flexDirection="column" alignItems="center" mx="8" mb={75} mt={2} justifyContent="space-between">
-                <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" mb={5}>
+                <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" mb={-3.5}>
                     Dashboard
                 </Text>
                 <Image
                     borderRadius='full'
-                    boxSize='75px'
+                    boxSize='150px'
                     src='/src/resources/image/paulofranklins-logos_black.png'
                     alt='PAULOFRANKLINS'
                 />
