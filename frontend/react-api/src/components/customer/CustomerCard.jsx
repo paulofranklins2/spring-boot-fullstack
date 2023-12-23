@@ -1,7 +1,10 @@
 import {
     AlertDialog,
-    AlertDialogBody, AlertDialogContent,
-    AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
     Avatar,
     Box,
     Button,
@@ -12,7 +15,8 @@ import {
     Stack,
     Tag,
     Text,
-    useColorModeValue, useDisclosure,
+    useColorModeValue,
+    useDisclosure,
 } from '@chakra-ui/react';
 
 import {useRef} from 'react'

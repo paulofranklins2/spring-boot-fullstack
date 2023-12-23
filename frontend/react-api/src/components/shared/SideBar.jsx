@@ -9,6 +9,7 @@ import {
     HStack,
     Icon,
     IconButton,
+    Image,
     Menu,
     MenuButton,
     MenuDivider,
@@ -17,20 +18,10 @@ import {
     Text,
     useColorModeValue,
     useDisclosure,
-    VStack,
-    Image
+    VStack
 } from '@chakra-ui/react';
 
-import {
-    FiBell,
-    FiChevronDown,
-    FiCompass,
-    FiHome,
-    FiMenu,
-    FiSettings,
-    FiStar,
-    FiTrendingUp
-} from 'react-icons/fi';
+import {FiBell, FiChevronDown, FiCompass, FiHome, FiMenu, FiSettings, FiStar, FiTrendingUp} from 'react-icons/fi';
 import {useAuth} from "../context/AuthContext.jsx";
 
 const LinkItems = [

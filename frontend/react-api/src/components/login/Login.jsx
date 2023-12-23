@@ -1,18 +1,5 @@
-import {
-    Alert,
-    AlertIcon,
-    Box,
-    Button,
-    Flex,
-    FormLabel,
-    Heading,
-    Image,
-    Input,
-    Link,
-    Stack,
-    Text,
-} from '@chakra-ui/react';
-import {Formik, Form, useField} from "formik";
+import {Alert, AlertIcon, Box, Button, Flex, FormLabel, Heading, Image, Input, Stack,} from '@chakra-ui/react';
+import {Form, Formik, useField} from "formik";
 import * as Yup from 'yup';
 import {useAuth} from "../context/AuthContext.jsx";
 import {errorNotification} from "../../services/Notification.js";
@@ -20,9 +7,6 @@ import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 
 const MyTextInput = ({label, ...props}) => {
-    // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-    // which we can spread on <input>. We can use field meta to show an error
-    // message if the field is invalid and it has been touched (i.e. visited)
     const [field, meta] = useField(props);
     return (
         <Box>
@@ -132,11 +116,6 @@ const Login = () => {
                 justifyContent={"center"}
                 bgGradient={{sm: 'linear(to-r, blue.600, purple.600)'}}
             >
-                <Text fontSize={"6xl"} color={'white'}>
-                    <Link target={"_blank"} href={"https://linkedin.com/in/paulofranklins"}>
-                        Contact Me
-                    </Link>
-                </Text>
                 <Image
                     objectFit={'scale-down'}
                     src='/src/resources/image/215539167-d7006790-b880-4929-83fb-c43fa74f429e.png'

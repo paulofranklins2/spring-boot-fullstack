@@ -1,9 +1,4 @@
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState
-} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import {login as performLogin} from "../../services/Client.js";
 import jwtDecode from "jwt-decode";
 
