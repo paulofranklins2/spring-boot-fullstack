@@ -6,14 +6,14 @@ on:
     branches:
       - master
     paths:
-      - 'frontend/react-api/**'
+      - 'frontend/react/**'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: './frontend/react-api'
+        working-directory: './frontend/react'
 
     steps:
       - uses: actions/checkout@v4
