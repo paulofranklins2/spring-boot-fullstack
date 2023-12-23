@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "paulofranklins-react",
-      "image": "paulofranklins/paulofranklins-react:23.12.2023.01.45.29",
+      "image": "paulofranklins/paulofranklins-react:23.12.2023.01.53.24",
       "essential": true,
       "memory": 256,
       "portMappings": [
