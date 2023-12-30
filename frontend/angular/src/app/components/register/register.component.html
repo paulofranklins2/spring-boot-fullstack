@@ -1,0 +1,97 @@
+<div class="flex" style="height: 100vh">
+    <div class="col-6 m-3 flex flex-column justify-content-center">
+        <div class="m-auto">
+            <div class="text-center">
+                <img
+                        alt="paulofranklins logo"
+                        height="200px"
+                        src="https://github.com/paulofranklins2/spring-boot-fullstack/blob/master/frontend/react/src/resources/image/paulofranklins-logos_black.png?raw=true">
+            </div>
+            <h1>Sign Up.</h1>
+            <p-message
+                    *ngIf="errorMsg"
+                    [text]="errorMsg"
+                    severity="error"
+                    styleClass="mb-2"
+            ></p-message>
+            <div class="field">
+                <label for="name">Name</label>
+                <input
+                        [(ngModel)]="customer.name"
+                        class="w-full"
+                        id="name"
+                        pInputText
+                        placeholder="Name"
+                        type="text"
+                >
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input
+                        [(ngModel)]="customer.email"
+                        class="w-full"
+                        id="email"
+                        pInputText
+                        placeholder="Email@gmail.com"
+                        type="email"
+                >
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input
+                        [(ngModel)]="customer.password"
+                        class="w-full"
+                        id="password"
+                        pInputText
+                        placeholder="Password"
+                        type="password"
+                >
+            </div>
+
+            <div class="field">
+                <label for="age">Age</label>
+                <input
+                        [(ngModel)]="customer.age"
+                        class="w-full"
+                        id="age"
+                        pInputText
+                        placeholder="0"
+                        type="number"
+                >
+            </div>
+
+            <div class="field">
+                <label for="gender">Gender</label>
+                <select
+                        [(ngModel)]="customer.gender"
+                        class="p-dropdown w-full custom-select"
+                        id="gender"
+                >
+                    <option value="">SELECT</option>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
+                </select>
+            </div>
+
+            <button
+                    (click)="createAccount()"
+                    class="w-full"
+                    label="Sign Up"
+                    pButton
+            ></button>
+
+            <button
+                    (click)="login()"
+                    class="w-full p-button-link text-left pl-0"
+                    label="Already have an account? Sign In."
+                    pButton
+            ></button>
+        </div>
+    </div>
+    <div class="col-6 flex flex-column justify-content-center align-items-center right-container">
+        <img
+                class="background p-6 pt-0"
+                src="https://github.com/paulofranklins2/spring-boot-fullstack/blob/master/frontend/react/src/resources/image/215539167-d7006790-b880-4929-83fb-c43fa74f429e.png?raw=true"
+         alt="project image">
+    </div>
+</div>
