@@ -1,0 +1,59 @@
+<div class="flex" style="height: 100vh">
+    <div class="col-6 m-3 flex flex-column justify-content-center">
+        <div class="m-auto">
+            <div class="text-center">
+                <img
+                        alt="paulofranklins logo"
+                        height="200px"
+                        src="https://github.com/paulofranklins2/spring-boot-fullstack/blob/master/frontend/react/src/resources/image/paulofranklins-logos_black.png?raw=true">
+            </div>
+            <h1>Sign In.</h1>
+            <p-message
+                    *ngIf="errorMsg"
+                    [text]="errorMsg"
+                    severity="error"
+                    styleClass="mb-2"
+            ></p-message>
+            <div class="field">
+                <label for="email">Email</label>
+                <input
+                        [(ngModel)]="authRequest.username"
+                        class="w-full"
+                        id="email"
+                        pInputText
+                        placeholder="email@gmail.com"
+                        type="email"
+                >
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input
+                        [(ngModel)]="authRequest.password"
+                        class="w-full"
+                        id="password"
+                        pInputText
+                        placeholder="Password"
+                        type="password"
+                >
+            </div>
+            <button
+                    (click)="login()"
+                    class="w-full"
+                    label="Login"
+                    pButton
+            ></button>
+            <button
+                    (click)="signUp()"
+                    class="w-full p-button-link text-left pl-0"
+                    label="Don't have an account? Sign up now."
+                    pButton
+            ></button>
+        </div>
+    </div>
+    <div class="col-6 flex flex-column justify-content-center align-items-center right-container">
+        <img
+                class="background p-6 pt-0"
+                src="https://github.com/paulofranklins2/spring-boot-fullstack/blob/master/frontend/react/src/resources/image/215539167-d7006790-b880-4929-83fb-c43fa74f429e.png?raw=true"
+         alt="project image">
+    </div>
+</div>

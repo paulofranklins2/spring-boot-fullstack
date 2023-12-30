@@ -31,13 +31,22 @@ public class Main {
             int age = random.nextInt(21, 80);
             var gender = age % 2 == 0 ? "MALE" : "FEMALE";
             var password = UUID.randomUUID().toString();
+            var name = firstName + " " + lastName;
+            var email = firstName.toLowerCase() + "." +
+                    lastName.toLowerCase() + "@gmail.com";
+
             var customer = new Customer(
-                    firstName + " " + lastName,
-                    firstName.toLowerCase() + "." +
-                            lastName.toLowerCase() + "@gmail.com",
-                    passwordEncoder.encode(password),
-                    age, Gender.valueOf(gender));
-            customerRepository.save(customer);
+                    name,
+                    email,
+                    passwordEncoder
+                            .encode(password),
+                    age,
+                    Gender.valueOf(gender));
+            customerRepository
+                    .save(customer);
+
+            System.out.println(email);
+            System.out.println(password);
         };
     }
 }

@@ -20,6 +20,15 @@ import {HeaderBarComponent} from "./components/header-bar/header-bar.component";
 import {MenuBarComponent} from "./components/menu-bar/menu-bar.component";
 import {MenuItemComponent} from "./components/menu-item/menu-item.component";
 import {AvatarModule} from "primeng/avatar";
+import { ManageCustomerComponent } from './components/manage-customer/manage-customer.component';
+import {DropdownModule} from "primeng/dropdown";
+import {DragDropModule} from "primeng/dragdrop";
+import { LoginComponent } from './components/login/login.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpInterceptorService} from "./services/interceptor/http-interceptor.service";
+import { CustomerCardComponent } from './components/customer-card/customer-card.component';
+import {ConfirmationService, MessageService} from "primeng/api";
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +36,11 @@ import {AvatarModule} from "primeng/avatar";
         CustomerComponent,
         HeaderBarComponent,
         MenuBarComponent,
-        MenuItemComponent
+        MenuItemComponent,
+        ManageCustomerComponent,
+        LoginComponent,
+        CustomerCardComponent,
+        RegisterComponent
     ],
     imports: [
         BrowserModule,
@@ -44,9 +57,20 @@ import {AvatarModule} from "primeng/avatar";
         BadgeModule,
         ToastModule,
         ConfirmDialogModule,
-        AvatarModule
+        AvatarModule,
+        DropdownModule,
+        DragDropModule,
+        HttpClientModule
     ],
-    providers: [],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpInterceptorService,
+            multi: true
+        },
+        MessageService,
+        ConfirmationService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

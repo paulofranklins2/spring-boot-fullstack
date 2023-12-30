@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public record ApiError(
         String path,
         String message,
-        int StatusCode,
+        int statusCode,
         LocalDateTime localDateTime
 ) {
 }

@@ -1,0 +1,77 @@
+<div>
+    <h2>{{operation === 'create' ? 'New Customer' : 'Update Customer'}}</h2>
+    <div class="field">
+        <label for="firstname">Name</label>
+        <input
+                [(ngModel)]="customer.name"
+                class="w-full"
+                id="firstname"
+                pInputText
+                placeholder="Name"
+                type="text"
+        >
+    </div>
+
+    <div class="field">
+        <label for="email">Email</label>
+        <input
+                [(ngModel)]="customer.email"
+                class="w-full"
+                id="email"
+                pInputText
+                placeholder="Email@gmail.com"
+                type="email"
+        >
+    </div>
+
+    <div class="field">
+        <label for="age">Age</label>
+        <input
+                [(ngModel)]="customer.age"
+                class="w-full"
+                id="age"
+                pInputText
+                placeholder="0"
+                type="number"
+        >
+    </div>
+
+    <div class="field" *ngIf="operation === 'create'">
+        <label for="password">Password</label>
+        <input
+                [(ngModel)]="customer.password"
+                class="w-full"
+                id="password"
+                pInputText
+                placeholder="Password"
+                type="password"
+        >
+    </div>
+
+    <div class="field" *ngIf="operation === 'create'">
+        <label for="gender">Gender</label>
+        <select
+                [(ngModel)]="customer.gender"
+                class="p-dropdown w-full custom-select"
+                id="gender"
+        >
+            <option value="">SELECT</option>
+            <option value="MALE">MALE</option>
+            <option value="FEMALE">FEMALE</option>
+        </select>
+    </div>
+
+    <button
+            [disabled]="!isCustomerValid"
+            (click)="onSubmit()"
+            class="w-full"
+            label="Submit"
+            pButton
+    ></button>
+    <button
+            (click)="onCancel()"
+            class="w-full p-button-outlined p-button-danger mt-2 "
+            label="Cancel"
+            pButton
+    ></button>
+</div>
