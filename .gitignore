@@ -56,10 +56,17 @@ build/
 
 
 #Angular
-/.angular/cache
+.angular/cache
 .sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
+connect.lock
+coverage
+libpeerconnection.log
 testem.log
-/typings
+typings
+
+# Visual Studio Code
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
