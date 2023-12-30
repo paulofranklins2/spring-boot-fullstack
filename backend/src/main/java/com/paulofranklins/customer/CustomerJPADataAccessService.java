@@ -1,5 +1,6 @@
 package com.paulofranklins.customer;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +17,9 @@ public class CustomerJPADataAccessService implements CustomerDAO {
 
     @Override
     public List<Customer> selectAllCustomers() {
-        return customerRepository.findAll();
+        return customerRepository
+                .findAll(Pageable.ofSize(50))
+                .getContent();
     }
 
     @Override
