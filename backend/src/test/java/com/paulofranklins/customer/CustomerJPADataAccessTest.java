@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 class CustomerJPADataAccessTest {
 
-    private CustomerJPADataAccessService undeTest;
+    private CustomerJPADataAccessService underTest;
     private AutoCloseable autoCloseable;
     private static Faker faker;
     @Mock
@@ -29,7 +29,7 @@ class CustomerJPADataAccessTest {
     void setUp() {
         faker = new Faker();
         autoCloseable = MockitoAnnotations.openMocks(this);
-        undeTest = new CustomerJPADataAccessService(customerRepository);
+        underTest = new CustomerJPADataAccessService(customerRepository);
     }
 
     @AfterEach
@@ -45,7 +45,7 @@ class CustomerJPADataAccessTest {
         when(customerRepository.findAll(any(Pageable.class))).thenReturn(page);
 
         //when
-        var expected = undeTest.selectAllCustomers();
+        var expected = underTest.selectAllCustomers();
         //then
         assertThat(expected).isEqualTo(customers);
         var pageableArgumentCaptor = ArgumentCaptor.forClass(Pageable.class);
@@ -60,7 +60,7 @@ class CustomerJPADataAccessTest {
         var id = 10;
 
         //When
-        undeTest.selectCustomerById(id);
+        underTest.selectCustomerById(id);
 
         //Then
         verify(customerRepository).findById(id);
@@ -71,10 +71,10 @@ class CustomerJPADataAccessTest {
         //Given
         var name = faker.name().fullName();
         var email = faker.internet().emailAddress();
-        Customer customer = new Customer(name, email, "password", 28, Gender.MALE);
+        var customer = new Customer(name, email, "password", 28, Gender.MALE);
 
         //When
-        undeTest.insertCustomer(customer);
+        underTest.insertCustomer(customer);
 
         //Then
         verify(customerRepository).save(customer);
@@ -86,7 +86,7 @@ class CustomerJPADataAccessTest {
         var email = faker.internet().emailAddress();
 
         //When
-        undeTest.existsCustomerByEmail(email);
+        underTest.existsCustomerByEmail(email);
 
         //Then
         verify(customerRepository).existsCustomerByEmail(email);
@@ -98,7 +98,7 @@ class CustomerJPADataAccessTest {
         var id = 2;
 
         //When
-        undeTest.deleteCustomer(id);
+        underTest.deleteCustomer(id);
 
         //Then
         verify(customerRepository).deleteById(id);
@@ -110,7 +110,7 @@ class CustomerJPADataAccessTest {
         var id = 2;
 
         //When
-        undeTest.existsCustomerById(id);
+        underTest.existsCustomerById(id);
 
         //Then
         verify(customerRepository).existsCustomerById(id);
@@ -121,13 +121,25 @@ class CustomerJPADataAccessTest {
         //Given
         var name = faker.name().fullName();
         var email = faker.internet().emailAddress();
-        Customer customer = new Customer(name, email, "password", 28, Gender.MALE);
+        var customer = new Customer(name, email, "password", 28, Gender.MALE);
 
         //When
-        undeTest.updateCustomer(customer);
+        underTest.updateCustomer(customer);
 
         //Then
         verify(customerRepository).save(customer);
+    }
 
+    @Test
+    void canUpdateProfileImageId() {
+        // Given
+        var profileImageId = "2222";
+        var customerId = 1;
+
+        // When
+        underTest.updateCustomerProfileImageId(profileImageId, customerId);
+
+        // Then
+        verify(customerRepository).updateProfileImageId(profileImageId, customerId);
     }
 }

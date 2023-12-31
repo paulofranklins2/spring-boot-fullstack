@@ -27,26 +27,31 @@ public abstract class AbstractTestContainers {
     }
 
     @Container
-    public static final PostgreSQLContainer<?> postgreSQLContainer =
-            new PostgreSQLContainer<>(
-                    "postgres:latest")
+    protected static final PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>("postgres:latest")
                     .withDatabaseName("paulofranklins-dao-unit-test")
                     .withUsername("paulofranklins")
                     .withPassword("paulofranklins");
 
     @DynamicPropertySource
-    public static void registerDataSourceProperties(DynamicPropertyRegistry d) {
-        d.add("spring.datasource.url",
-                postgreSQLContainer::getJdbcUrl);
-        d.add("spring.datasource.username",
-                postgreSQLContainer::getUsername);
-        d.add("spring.datasource.password",
-                postgreSQLContainer::getPassword);
+    private static void registerDataSourceProperties(
+            DynamicPropertyRegistry registry) {
+        registry.add(
+                "spring.datasource.url",
+                postgreSQLContainer::getJdbcUrl
+        );
+        registry.add(
+                "spring.datasource.username",
+                postgreSQLContainer::getUsername
+        );
+        registry.add(
+                "spring.datasource.password",
+                postgreSQLContainer::getPassword
+        );
     }
 
     private static DataSource getDataSource() {
-        return DataSourceBuilder
-                .create()
+        return DataSourceBuilder.create()
                 .driverClassName(postgreSQLContainer.getDriverClassName())
                 .url(postgreSQLContainer.getJdbcUrl())
                 .username(postgreSQLContainer.getUsername())
@@ -58,5 +63,6 @@ public abstract class AbstractTestContainers {
         return new JdbcTemplate(getDataSource());
     }
 
-    protected static final Faker faker = new Faker();
+    protected static final Faker FAKER = new Faker();
+
 }

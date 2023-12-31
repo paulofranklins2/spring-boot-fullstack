@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
+
     private final AuthenticationManager authenticationManager;
     private final CustomerDTOMapper customerDTOMapper;
     private final JWTUtil jwtUtil;
@@ -21,14 +22,14 @@ public class AuthenticationService {
         this.jwtUtil = jwtUtil;
     }
 
-    public AuthenticationResponse login(AuthenticationRequest r) {
+    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
         var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        r.username(),
-                        r.password()
+                        authenticationRequest.username(),
+                        authenticationRequest.password()
                 )
         );
-        Customer principal = (Customer) authentication.getPrincipal();
+        var principal = (Customer) authentication.getPrincipal();
         var customerDTO = customerDTOMapper.apply(principal);
         var token = jwtUtil.issueToken(customerDTO.username(), customerDTO.roles());
         return new AuthenticationResponse(token, customerDTO);

@@ -82,4 +82,10 @@ public class CustomerJDBCDataAccessService implements CustomerDAO {
         return jdbcTemplate.query(sql, customerRowMapper, email)
                 .stream().findFirst();
     }
+
+    @Override
+    public void updateCustomerProfileImageId(String profileImageId, Integer customerId) {
+        var sql = "UPDATE customer SET profile_image_id = ? where id = ?";
+        jdbcTemplate.update(sql, profileImageId, customerId);
+    }
 }

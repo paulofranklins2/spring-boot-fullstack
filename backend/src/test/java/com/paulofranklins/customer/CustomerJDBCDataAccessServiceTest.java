@@ -10,7 +10,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
+class  CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
 
     private CustomerJDBCDataAccessService underTest;
     private final CustomerRowMapper customerRowMapper = new CustomerRowMapper();
@@ -29,8 +29,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         //Given
         var random = new Random();
         var customer = new Customer(
-                faker.name().fullName(),
-                faker.internet().safeEmailAddress() + "@" + UUID.randomUUID(),
+                FAKER.name().fullName(),
+                FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID(),
                 "password", random.nextInt(1, 100),
                 Gender.MALE);
         underTest.insertCustomer(customer);
@@ -45,10 +45,10 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void selectCustomerById() {
         //Given
-        var email = faker.internet().safeEmailAddress() + "@" + UUID.randomUUID();
+        var email = FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID();
         var random = new Random();
         var customer = new Customer(
-                faker.name().fullName(),
+                FAKER.name().fullName(),
                 email,
                 "password", random.nextInt(1, 100),
                 Gender.MALE);
@@ -87,10 +87,10 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void insertCustomer() {
         //Given
-        var email = faker.internet().safeEmailAddress() + "@" + UUID.randomUUID();
+        var email = FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID();
         var random = new Random();
         var customer = new Customer(
-                faker.name().fullName(),
+                FAKER.name().fullName(),
                 email,
                 "password", random.nextInt(1, 100),
                 Gender.MALE);
@@ -103,10 +103,10 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void existsCustomerByEmail() {
         //Given
-        var email = faker.internet().safeEmailAddress() + "@" + UUID.randomUUID();
+        var email = FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID();
         var random = new Random();
         var customer = new Customer(
-                faker.name().fullName(),
+                FAKER.name().fullName(),
                 email,
                 "password", random.nextInt(1, 100),
                 Gender.MALE);
@@ -121,7 +121,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void existsCustomerByEmailReturnsFalseWhenDoesNotExist() {
         //Given
-        var email = faker.internet().safeEmailAddress() + "@" + UUID.randomUUID();
+        var email = FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID();
 
         //When
         var actual = underTest.existsCustomerByEmail(email);
@@ -132,10 +132,10 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void existsCustomerById() {
         //Given
-        var email = faker.internet().safeEmailAddress() + "@" + UUID.randomUUID();
+        var email = FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID();
         var random = new Random();
         var customer = new Customer(
-                faker.name().fullName(),
+                FAKER.name().fullName(),
                 email,
                 "password", random.nextInt(1, 100),
                 Gender.MALE);
@@ -167,8 +167,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
 
     @Test
     void deleteCustomer() {
-        var email = faker.internet().safeEmailAddress() + "@" + UUID.randomUUID();
-        var fullName = faker.name().fullName();
+        var email = FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID();
+        var fullName = FAKER.name().fullName();
         var random = new Random();
         int age = random.nextInt(1, 100);
 
@@ -204,8 +204,8 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void updateCustomer() {
         //Given
-        var email = faker.internet().safeEmailAddress() + "@" + UUID.randomUUID();
-        var fullName = faker.name().fullName();
+        var email = FAKER.internet().safeEmailAddress() + "@" + UUID.randomUUID();
+        var fullName = FAKER.name().fullName();
         var random = new Random();
         int age = random.nextInt(1, 100);
 
@@ -244,4 +244,36 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
                         customer.getEmail().equals(fakeName) &&
                         customer.getAge() == fakeAge);
     }
+
+    @Test
+    void canUpdateProfileImageId() {
+        // Given
+        var email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        var customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password", 20,
+                Gender.MALE);
+
+        underTest.insertCustomer(customer);
+
+        var id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+
+        // When
+        underTest.updateCustomerProfileImageId("2222", id);
+
+        // Then
+        var customerOptional = underTest.selectCustomerById(id);
+        assertThat(customerOptional)
+                .isPresent()
+                .hasValueSatisfying(
+                        c -> assertThat(c.getProfileImageId()).isEqualTo("2222")
+                );
+    }
+
 }

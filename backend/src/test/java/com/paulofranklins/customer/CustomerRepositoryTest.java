@@ -2,6 +2,7 @@ package com.paulofranklins.customer;
 
 import com.paulofranklins.AbstractTestContainers;
 import com.paulofranklins.TestConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -20,57 +21,109 @@ class CustomerRepositoryTest extends AbstractTestContainers {
     @Autowired
     private CustomerRepository underTest;
 
+    @BeforeEach
+    void setUp() {
+        underTest.deleteAll();
+    }
 
     @Test
     void existsCustomerByEmail() {
-        //Given
-        var name = faker.name().fullName();
-        var email = faker.internet().emailAddress() + "_" + UUID.randomUUID();
-        Customer c = new Customer(name, email, "password", 28, Gender.MALE);
-        underTest.save(c);
+        // Given
+        var email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        var customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password",
+                20,
+                Gender.MALE);
 
-        //When
-        var actual = underTest.existsCustomerByEmail(c.getEmail());
+        underTest.save(customer);
 
-        //Then
+        // When
+        var actual = underTest.existsCustomerByEmail(email);
+
+        // Then
         assertThat(actual).isTrue();
     }
 
     @Test
-    void existsCustomerByEmailWillReturnFalseWhenItDoesNot() {
-        //Given
-        var email = faker.internet().emailAddress() + "_" + UUID.randomUUID();
+    void existsCustomerByEmailFailsWhenEmailNotPresent() {
+        // Given
+        var email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
 
-        //When
+        // When
         var actual = underTest.existsCustomerByEmail(email);
 
-        //Then
+        // Then
         assertThat(actual).isFalse();
     }
 
     @Test
     void existsCustomerById() {
-        //Given
-        var name = faker.name().fullName();
-        var email = faker.internet().emailAddress() + "_" + UUID.randomUUID();
-        Customer c = new Customer(name, email, "password", 28, Gender.MALE);
-        underTest.save(c);
+        // Given
+        var email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        var customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password", 20,
+                Gender.MALE);
 
-        //When
-        var actual = underTest.existsCustomerById(c.getId());
-        //Then
+        underTest.save(customer);
+
+        var id = underTest.findAll()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+
+        // When
+        var actual = underTest.existsCustomerById(id);
+
+        // Then
         assertThat(actual).isTrue();
     }
 
     @Test
-    void existsCustomerByIdWillReturnFalseWhenItDoesNot() {
-        //Given
+    void existsCustomerByIdFailsWhenIdNotPresent() {
+        // Given
         var id = -1;
 
-        //When
+        // When
         var actual = underTest.existsCustomerById(id);
 
-        //Then
+        // Then
         assertThat(actual).isFalse();
+    }
+
+    @Test
+    void canUpdateProfileImageId() {
+        // Given
+        var email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        var customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password", 20,
+                Gender.MALE);
+
+        underTest.save(customer);
+
+        var id = underTest.findAll()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+        // When
+        underTest.updateProfileImageId("2222", id);
+
+        var customerOptional = underTest.findById(id);
+        assertThat(customerOptional)
+                .isPresent()
+                .hasValueSatisfying(c -> {
+                    assertThat(
+                            c.getProfileImageId())
+                            .isEqualTo("2222");
+                });
     }
 }

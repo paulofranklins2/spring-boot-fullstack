@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +26,7 @@ public class Customer implements UserDetails {
 //    @SequenceGenerator(name = "customer_id_sequence", sequenceName = "customer_id_sequence")
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_sequence")
     @SequenceGenerator(name = "customer_id_seq", sequenceName = "customer_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
+    @GeneratedValue(strategy = SEQUENCE, generator = "customer_id_seq")
     private Integer id;
     @Column(nullable = false)
     private String name;
