@@ -16,14 +16,16 @@ import java.util.List;
 @Setter
 @Entity
 @EqualsAndHashCode
-@Table(name = "customer", uniqueConstraints = {@UniqueConstraint(name = "customer_email_unique", columnNames = "email")})
+@Table(name = "customer", uniqueConstraints = {
+        @UniqueConstraint(name = "customer_email_unique", columnNames = "email"),
+        @UniqueConstraint(name = "profile_image_id_unique", columnNames = "profileImageId")})
 public class Customer implements UserDetails {
     @Id
 //    @SequenceGenerator(name = "customer_id_sequence", sequenceName = "customer_id_sequence")
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_sequence")
     @SequenceGenerator(name = "customer_id_seq", sequenceName = "customer_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
-    private Integer Id;
+    private Integer id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -35,9 +37,18 @@ public class Customer implements UserDetails {
     private Gender gender;
     @Column(nullable = false)
     private String password;
+    @Column(
+            unique = true
+    )
+    private String profileImageId;
 
-    public Customer(Integer id, String name, String email, String password, Integer age, Gender gender) {
-        Id = id;
+    public Customer(Integer id,
+                    String name,
+                    String email,
+                    String password,
+                    Integer age,
+                    Gender gender) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -45,7 +56,27 @@ public class Customer implements UserDetails {
         this.gender = gender;
     }
 
-    public Customer(String name, String email, String password, int age, Gender gender) {
+    public Customer(Integer id,
+                    String name,
+                    String email,
+                    String password,
+                    Integer age,
+                    Gender gender,
+                    String profileImageId) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+        this.gender = gender;
+        this.profileImageId = profileImageId;
+    }
+
+    public Customer(String name,
+                    String email,
+                    String password,
+                    Integer age,
+                    Gender gender) {
         this.name = name;
         this.email = email;
         this.password = password;
