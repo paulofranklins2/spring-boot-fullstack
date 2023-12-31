@@ -9,9 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -20,6 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.IMAGE_JPEG;
+import static org.springframework.web.reactive.function.BodyInserters.fromMultipartData;
+import static org.testcontainers.shaded.com.google.common.io.Files.toByteArray;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class CustomerIT {
@@ -279,7 +285,7 @@ public class CustomerIT {
         assertThat(updatedCustomer).isEqualTo(expected);
     }
 
-    /*@Test
+    @Test
     void canUploadAndDownloadProfilePictures() throws IOException {
         // create registration request
         var faker = new Faker();
@@ -328,9 +334,8 @@ public class CustomerIT {
                 .orElseThrow();
 
         assertThat(customerDTO.profileImageId()).isNullOrEmpty();
-
         var image = new ClassPathResource(
-                "%s.jpeg".formatted(gender.name().toLowerCase())
+                "%s.jpg".formatted(gender.name().toLowerCase())
         );
 
         var bodyBuilder = new MultipartBodyBuilder();
@@ -346,8 +351,6 @@ public class CustomerIT {
                 .exchange()
                 .expectStatus()
                 .isOk();
-
-        // Then the profile image id should be populated
 
         // get customer by id
         var profileImageId = webTestClient.get()
@@ -367,7 +370,8 @@ public class CustomerIT {
         // download image for customer
         var downloadedImage = webTestClient.get()
                 .uri(CUSTOMER_PATH + "/{customerId}/profile-image", customerDTO.id())
-                .accept(MediaType.IMAGE_JPEG)
+                .accept(IMAGE_JPEG)
+                .header(AUTHORIZATION, String.format("Bearer %s", jwtToken))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -377,12 +381,12 @@ public class CustomerIT {
 
         var actual = new byte[0];
         try {
-            actual = Files.toByteArray(image.getFile());
+            actual = toByteArray(image.getFile());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         assertThat(actual).isEqualTo(downloadedImage);
 
-    }*/
+    }
 }
