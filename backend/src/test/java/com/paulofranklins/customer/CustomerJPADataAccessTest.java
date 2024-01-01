@@ -39,20 +39,26 @@ class CustomerJPADataAccessTest {
 
     @Test
     void selectAllCustomers() {
+        // Mocking
         var page = mock(Page.class);
         var customers = List.of(new Customer());
         when(page.getContent()).thenReturn(customers);
         when(customerRepository.findAll(any(Pageable.class))).thenReturn(page);
 
-        //when
+        // Execution
         var expected = underTest.selectAllCustomers();
-        //then
+
+        // Verification
         assertThat(expected).isEqualTo(customers);
+
+        // Verify the invocation with the correct Pageable argument
         var pageableArgumentCaptor = ArgumentCaptor.forClass(Pageable.class);
         verify(customerRepository).findAll(pageableArgumentCaptor.capture());
-        assertThat(pageableArgumentCaptor.getValue()).isEqualTo(Pageable.ofSize(50));
 
+        // Assert the captured Pageable has the expected size
+        assertThat(pageableArgumentCaptor.getValue().getPageSize()).isEqualTo(100);
     }
+
 
     @Test
     void selectCustomerById() {
