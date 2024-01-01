@@ -12,6 +12,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.testcontainers.shaded.com.google.common.io.Files;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -302,7 +303,7 @@ public class CustomerIT {
         );
 
         // send a post request
-        var jwtToken = webTestClient.post()
+        String jwtToken = webTestClient.post()
                 .uri(CUSTOMER_PATH)
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON)
@@ -316,7 +317,7 @@ public class CustomerIT {
                 .get(0);
 
         // get all customers
-        var allCustomers = webTestClient.get()
+        List<CustomerDTO> allCustomers = webTestClient.get()
                 .uri(CUSTOMER_PATH)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, String.format("Bearer %s", jwtToken))
@@ -328,17 +329,18 @@ public class CustomerIT {
                 .returnResult()
                 .getResponseBody();
 
-        var customerDTO = allCustomers.stream()
+        CustomerDTO customerDTO = allCustomers.stream()
                 .filter(customer -> customer.email().equals(email))
                 .findFirst()
                 .orElseThrow();
 
         assertThat(customerDTO.profileImageId()).isNullOrEmpty();
+
         var image = new ClassPathResource(
-                "%s.jpg".formatted(gender.name().toLowerCase())
+                "%s.jpeg".formatted(gender.name().toLowerCase())
         );
 
-        var bodyBuilder = new MultipartBodyBuilder();
+        MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
         bodyBuilder.part("file", image);
 
         // When
@@ -379,12 +381,7 @@ public class CustomerIT {
                 .returnResult()
                 .getResponseBody();
 
-        var actual = new byte[0];
-        try {
-            actual = toByteArray(image.getFile());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        var actual = Files.toByteArray(image.getFile());
 
         assertThat(actual).isEqualTo(downloadedImage);
 

@@ -44,7 +44,8 @@ public class SecurityFilterChainConfig {
                 ).permitAll()
                 .requestMatchers(
                         GET,
-                        "/actuator/**"
+                        "/actuator/**",
+                        "/api/v1/customers/*/profile-image"
                 ).permitAll()
                 .anyRequest()
                 .authenticated()
