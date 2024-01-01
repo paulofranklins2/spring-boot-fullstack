@@ -16,13 +16,11 @@ aws:
     buckets:
       customer: fs-paulofranklins-customers
 
-
 management:
   endpoints:
     web:
       exposure:
         include: "health"
-
 
 spring:
   datasource:
